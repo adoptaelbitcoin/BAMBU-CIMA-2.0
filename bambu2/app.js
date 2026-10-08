@@ -174,7 +174,7 @@ const PROOF={BTC:[["Compra corto (z −0,5…0)","3m +12% (62%) · 6m +39% (70%)
  ETH:[["Compra corto (z 0…0,3)","3m +26% (66%) · 6m +22% (69%)"],["Venta (z ≥ 2,0)","6m −51% · acierto 100% (n=23)"],["Arranque","6m +19% (59%) · a 1 año se da la vuelta"],["Entrada de ciclo (NUPL ≤ 0,07)","1a +68% (79%) · 2a +1001% (100%)"],["Zona alta (NUPL ≥ 0,65)","1a −41%"],["Índice muy frío (< 20)","1a +68% (81%)"],["Índice muy caliente (> 80)","1a −50% · sube sólo el 5%"],["Escala vs DCA plano","Más barato 8 de 10 años (−1% medio); falla 2017 por ventana insuficiente"]]};
 function proof(){$("#proof").innerHTML=PROOF[st.t].map(([k,v])=>`<div class="pf"><dt>${k}</dt><dd>${v}</dd></div>`).join("");}
 
-function render(){document.querySelectorAll("#coin button").forEach(b=>b.classList.toggle("on",b.dataset.t===st.t));thermo("#th-sth","sth");thermo("#th-lth","lth");combo();today();calendar();distrib();chart("sth");chart("lth");investor();scale();proof();}
+function render(){document.querySelectorAll("#coin button").forEach(b=>b.classList.toggle("on",b.dataset.t===st.t));thermo("#th-sth","sth");thermo("#th-lth","lth");combo();today();calendar();distrib();window.Bambu2Supply&&window.Bambu2Supply.render();chart("sth");chart("lth");investor();scale();proof();}
 function setT(t){st.t=t;localStorage.setItem("b2_t",t);render();}
 document.querySelectorAll("#coin button").forEach(b=>b.onclick=()=>setT(b.dataset.t));
 document.querySelectorAll("#mode button").forEach(b=>b.onclick=()=>{st.mode=b.dataset.m;localStorage.setItem("b2_mode",st.mode);investor();});
