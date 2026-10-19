@@ -14,16 +14,16 @@ const cache={};
 function calc(t){if(cache[t])return cache[t];const D=window.BAMBU2_DATA[t],s=window.Bambu2S[t],c=B.CFG[t],n=D.d.length;
  const sp=D.sp,e30=D.e30,e90=D.e90,so=s.sopr;
  const ev=(f,i)=>{for(let j=Math.max(1,i-9);j<=i;j++){if(f(j))return true;}return false;};
- const phase=i=>{const v=sp[i];if(v==null||e30[i]==null||e90[i]==null||s.z[i]==null||so[i]==null)return null;
+ const phase=i=>{const v=sp[i]!=null?sp[i]:e30[i];if(v==null||e30[i]==null||e90[i]==null||s.z[i]==null||so[i]==null)return null;
   const zF=s.z[i]<c.buy[1];
   const up=ev(j=>e30[j-1]<=e90[j-1]&&e30[j]>e90[j],i),dn=ev(j=>e30[j-1]>=e90[j-1]&&e30[j]<e90[j],i);
   const su=ev(j=>so[j-1]<1&&so[j]>=1,i),sl=ev(j=>so[j-1]>=1&&so[j]<1,i);
-  const fl={v,zF,up,dn,su,sl,z:s.z[i],sopr:so[i]};
+  const fl={v,raw:sp[i],zF,up,dn,su,sl,z:s.z[i],sopr:so[i]};
   let p=null,sub=null;
   if(v>80&&dn&&sl)p=4;else if(v<40&&up){p=2;sub="fuerte";}else if(v<50&&su&&zF){p=2;sub="suave";}
   else if(s.z[i]>=c.sellR&&v>=60&&v<=90)p=3;else if(zF&&v<50)p=1;
   return{p,sub,fl};};
- const arr=new Array(n).fill(null);let last=n-1;while(last>0&&sp[last]==null)last--;
+ const arr=new Array(n).fill(null);let last=n-1;while(last>0&&sp[last]==null&&e30[last]==null)last--;
  const cnt={1:0,2:0,3:0,4:0,0:0};let tot=0;
  for(let i=0;i<=last;i++){const r=phase(i);if(!r)continue;arr[i]=r;cnt[r.p||0]++;tot++;}
  return cache[t]={D,s,c,last,arr,cnt,tot};}
@@ -57,14 +57,14 @@ function chart(t,C){const D=C.D,n=C.last+1,len=Math.min(RNG[rg]||365,n),i0=n-len
  const hit=box.querySelector("#sp-hit"),hx=box.querySelector("#sp-hx"),tip=box.querySelector("#sp-tip");
  hit.onmousemove=ev=>{const r=hit.getBoundingClientRect(),sx=(ev.clientX-r.left)/r.width,i=Math.max(i0,Math.min(n-1,Math.round(i0+sx*(n-1-i0))));const ph=C.arr[i]&&C.arr[i].p;
   hx.setAttribute("x1",x(i));hx.setAttribute("x2",x(i));hx.setAttribute("opacity",.5);
-  tip.style.display="block";tip.innerHTML="<b>"+new Date(D.d[i]+"T00:00:00Z").toLocaleDateString("es-ES",{day:"numeric",month:"short",year:"numeric",timeZone:"UTC"})+"</b><span>Precio "+usd(D.p[i])+"</span><span>Valor diario "+f1(D.sp[i])+"%</span><span>EMA30 "+f1(D.e30[i])+" · EMA60 "+f1(D.e60[i])+" · EMA90 "+f1(D.e90[i])+"</span>"+(ph?"<span class='tsep'>Fase "+ph+" · "+PH[ph-1].k+"</span>":"");
-  const bw=box.getBoundingClientRect();tip.style.left=Math.min(bw.width-230,Math.max(0,(ev.clientX-bw.left)+14))+"px";tip.style.top="10px";};
- hit.onmouseleave=()=>{tip.style.display="none";hx.setAttribute("opacity",0);};}
+  tip.style.display="flex";tip.style.opacity=1;const S=C.s,zo=S.z[i]==null?null:B.zone(t,S.z[i]);tip.innerHTML="<b>"+new Date(D.d[i]+"T00:00:00Z").toLocaleDateString("es-ES",{day:"numeric",month:"short",year:"numeric",timeZone:"UTC"})+"</b><span>Precio "+usd(D.p[i])+"</span><span>Valor diario "+f1(D.sp[i])+"%</span><span>EMA30 "+f1(D.e30[i])+" · EMA60 "+f1(D.e60[i])+" · EMA90 "+f1(D.e90[i])+"</span>"+"<span>Coste STH "+usd(S.c[i])+"</span><span>z "+(S.z[i]==null?"—":sg(S.z[i]))+" · "+(zo?zo.lbl:"—")+"</span><span>Termómetro "+(S.short[i]==null?"—":Math.round(S.short[i]))+"</span>"+(ph?"<span class='tsep'>Fase "+ph+" · "+PH[ph-1].k+"</span>":"");
+  const bw=box.getBoundingClientRect();const lf=ev.clientX-bw.left;tip.style.left=(lf>bw.width*.6?Math.max(0,lf-tip.offsetWidth-12):lf+12)+"px";tip.style.top="10px";};
+ hit.onmouseleave=()=>{tip.style.opacity=0;hx.setAttribute("opacity",0);};}
 function render(){const el=$("#sup");if(!el)return;const t=localStorage.getItem("b2_t")||"BTC";const C=calc(t),i=C.last,r=C.arr[i];if(!r){el.innerHTML='<p class="muted sm">Sin datos de Supply in Profit.</p>';return;}
  const D=C.D,fl=r.fl,cur=r.p;
  const fd=new Date(D.d[i]+"T00:00:00Z").toLocaleDateString("es-ES",{day:"numeric",month:"short",year:"numeric",timeZone:"UTC"});
  const mk=(v,cls)=>v==null?"":'<i class="sp-m '+cls+'" style="left:'+Math.max(0,Math.min(100,v))+'%"></i>';
- const gauge='<div class="sp-g"><div class="sp-tr"><em style="left:0;width:20%;background:#1f4e9c"></em><em style="left:20%;width:20%;background:#8fc0f0"></em><em style="left:40%;width:20%;background:#d8dcd6"></em><em style="left:60%;width:20%;background:#f7e6a0"></em><em style="left:80%;width:10%;background:#ee9b4a"></em><em style="left:90%;width:10%;background:#c0392b"></em>'+mk(D.e90[i],"m90")+mk(D.e30[i],"m30")+mk(fl.v,"mv")+'</div><div class="sp-tk"><span>0 capitulación</span><span>50</span><span>100 euforia</span></div></div>';
+ const gauge='<div class="sp-g"><div class="sp-tr"><em style="left:0;width:20%;background:#1f4e9c"></em><em style="left:20%;width:20%;background:#8fc0f0"></em><em style="left:40%;width:20%;background:#d8dcd6"></em><em style="left:60%;width:20%;background:#f7e6a0"></em><em style="left:80%;width:10%;background:#ee9b4a"></em><em style="left:90%;width:10%;background:#c0392b"></em>'+mk(D.e90[i],"m90")+mk(D.e30[i],"m30")+mk(fl.raw,"mv")+'</div><div class="sp-tk"><span>0 capitulación</span><span>50</span><span>100 euforia</span></div></div>';
  const stat=(l,v,d)=>'<div class="sp-s"><span>'+l+'</span><b>'+f1(v)+'%</b>'+(d!=null?'<small>'+(d>=0?"▲ ":"▼ ")+f1(Math.abs(d))+' pts en 7 d</small>':"")+'</div>';
  const d7=a=>a[i]!=null&&a[i-7]!=null?a[i]-a[i-7]:null;
  const ck=(ok,txt)=>'<li class="'+(ok?"ok":"no")+'">'+(ok?"✓ ":"✗ ")+txt+'</li>';
@@ -76,7 +76,7 @@ function render(){const el=$("#sup");if(!el)return;const t=localStorage.getItem(
   return '<article class="sp-t'+(on?" on":"")+'" style="--c:'+p.col+'"><header><span class="sp-n">'+p.id+'</span><b>'+p.k+'</b>'+(on?'<span class="sp-now">HOY'+(r.sub?" · "+r.sub:"")+'</span>':"")+'</header><p class="sp-q">'+p.q+'</p><p class="sp-r">'+p.rule+'</p><ul>'+flags[p.id].join("")+'</ul>'+(on?'<p class="sp-a"><b>'+p.act+'</b></p>':"")+'<p class="sp-b">'+bk+'</p></article>';}).join("");
  const pc=k=>C.cnt[k]/C.tot*100;
  const head=cur?'Fase de hoy: <b>'+PH[cur-1].k.toLowerCase()+'</b>':'Hoy <b>ninguna de las 4 fases está activa</b>: el corto está en zona de transición';
- el.innerHTML='<div class="sp-rg">'+[["180","180 días"],["365","1 año"],["730","2 años"],["1460","4 años"],["max","Máx."]].map(([k,l])=>'<button data-r="'+k+'"'+(rg===k?' class="on"':"")+'>'+l+'</button>').join("")+'</div><div id="sp-ch" class="sp-ch"></div><div class="sp-top"><div class="sp-gw">'+gauge+'<p class="muted sm" style="margin:6px 0 0"><i class="sp-k mv"></i>Valor diario <i class="sp-k m30"></i>EMA30 <i class="sp-k m90"></i>EMA90 · último dato del supply: '+fd+'</p></div><div class="sp-ss">'+stat("Valor diario",fl.v,d7(D.sp))+stat("EMA 30",D.e30[i],d7(D.e30))+stat("EMA 60",D.e60[i],d7(D.e60))+stat("EMA 90",D.e90[i],d7(D.e90))+'</div></div><p class="sp-h">'+head+'. '+(cur?PH[cur-1].act:"Sin ejecución táctica adicional por el supply.")+'</p><div class="sp-tiles">'+tiles+'</div><p class="muted sm" style="margin:10px 0 0">Con estas reglas, desde '+D.d[C.arr.findIndex(x=>x)].slice(0,4)+' el corto de '+C.c.name+' pasó '+f1(pc(1))+'% de los días en acumulación activa, '+f1(pc(2))+'% en acumulación agotándose, '+f1(pc(3))+'% en distribución activa, '+f1(pc(4))+'% en distribución agotándose y '+f1(pc(0))+'% sin fase. El supply no entra al índice: su correlación con la z es de +0,85 (BTC) y +0,80 (ETH), mediría lo mismo dos veces. Son brújula, no GPS (muestras de 8 a 18 casos); para recargar manda la z.</p>';
+ el.innerHTML='<div class="sp-rg">'+[["180","180 días"],["365","1 año"],["730","2 años"],["1460","4 años"],["max","Máx."]].map(([k,l])=>'<button data-r="'+k+'"'+(rg===k?' class="on"':"")+'>'+l+'</button>').join("")+'</div><div id="sp-ch" class="sp-ch"></div><div class="sp-top"><div class="sp-gw">'+gauge+'<p class="muted sm" style="margin:6px 0 0"><i class="sp-k mv"></i>Valor diario <i class="sp-k m30"></i>EMA30 <i class="sp-k m90"></i>EMA90 · datos al '+fd+(fl.raw==null?' · el valor diario no se publica desde el '+(()=>{let j=i;while(j>0&&D.sp[j]==null)j--;return D.d[j].slice(8)+'-'+D.d[j].slice(5,7);})()+'; las fases usan la EMA 30 como sustituto':'')+'</p></div><div class="sp-ss">'+stat("Valor diario"+(fl.raw==null?" (sin dato)":""),fl.raw!=null?fl.raw:(()=>{let j=i;while(j>0&&D.sp[j]==null)j--;return D.sp[j];})(),fl.raw!=null?d7(D.sp):null)+stat("EMA 30",D.e30[i],d7(D.e30))+stat("EMA 60",D.e60[i],d7(D.e60))+stat("EMA 90",D.e90[i],d7(D.e90))+'</div></div><p class="sp-h">'+head+'. '+(cur?PH[cur-1].act:"Sin ejecución táctica adicional por el supply.")+'</p><div class="sp-tiles">'+tiles+'</div><p class="muted sm" style="margin:10px 0 0">Con estas reglas, desde '+D.d[C.arr.findIndex(x=>x)].slice(0,4)+' el corto de '+C.c.name+' pasó '+f1(pc(1))+'% de los días en acumulación activa, '+f1(pc(2))+'% en acumulación agotándose, '+f1(pc(3))+'% en distribución activa, '+f1(pc(4))+'% en distribución agotándose y '+f1(pc(0))+'% sin fase. El supply no entra al índice: su correlación con la z es de +0,85 (BTC) y +0,80 (ETH), mediría lo mismo dos veces. Son brújula, no GPS (muestras de 8 a 18 casos); para recargar manda la z.</p>';
  chart(t,C);document.querySelectorAll(".sp-rg button").forEach(b=>b.onclick=()=>{rg=b.dataset.r;localStorage.setItem("b2_sp_r",rg);render();});}
 window.Bambu2Supply={render};
 window.addEventListener("resize",()=>{clearTimeout(window.__spT);window.__spT=setTimeout(render,150);});
