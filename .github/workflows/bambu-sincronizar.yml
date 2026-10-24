@@ -29,7 +29,11 @@ jobs:
           ORIGEN=https://raw.githubusercontent.com/adoptaelbitcoin/Bambu-Cima/main
           for f in app/btc_real.js app/eth_real.js app/history.js bambu2/data.js; do
             curl -fsSL "$ORIGEN/$f" -o "$RUNNER_TEMP/nuevo.js"
-            node -e 'const fs=require("fs"),vm=require("vm");vm.runInNewContext(fs.readFileSync(process.argv[1],"utf8"),{window:{}})' "$RUNNER_TEMP/nuevo.js"
+            if [ "$f" = app/history.js ]; then
+              grep -q 'BambuDataDate = "' "$RUNNER_TEMP/nuevo.js"
+            else
+              node -e 'const fs=require("fs"),vm=require("vm");vm.runInNewContext(fs.readFileSync(process.argv[1],"utf8"),{window:{}})' "$RUNNER_TEMP/nuevo.js"
+            fi
             mv "$RUNNER_TEMP/nuevo.js" "$f"
           done
 
