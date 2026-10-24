@@ -1,15 +1,14 @@
 # Copia a Bambú 2.0 los datos que Bambu-Cima actualiza cada día.
 # No necesita clave: lee los archivos públicos del repositorio Bambu-Cima.
+# Corre una vez al día a las 13:00 hora de España (una hora después de Bambu-Cima):
+# 11:00 UTC en verano, 12:00 UTC en invierno; cada día solo sigue la que corresponde.
 name: Bambu · sincronizar datos desde Bambu-Cima
 
 on:
   schedule:
-    - cron: "30 8 * * *"
-    - cron: "30 16 * * *"
+    - cron: "0 11 * * *"   # 13:00 en Madrid con horario de verano (UTC+2)
+    - cron: "0 12 * * *"   # 13:00 en Madrid con horario de invierno (UTC+1)
   workflow_dispatch: {}
-  push:
-    branches: [main]
-    paths: [".github/workflows/bambu-sincronizar.yml"]
 
 permissions:
   contents: write
@@ -18,12 +17,28 @@ jobs:
   sincronizar:
     runs-on: ubuntu-latest
     steps:
+      - name: ¿Son las 13:00 en Madrid?
+        id: hora
+        run: |
+          seguir=true
+          if [ "${{ github.event_name }}" = "schedule" ]; then
+            off=$(TZ=Europe/Madrid date +%z)
+            case "${{ github.event.schedule }}|$off" in
+              "0 11 * * *|+0200"|"0 12 * * *|+0100") ;;
+              *) seguir=false; echo "Hoy toca la otra hora (Madrid $off)";;
+            esac
+          fi
+          echo "seguir=$seguir" >> "$GITHUB_OUTPUT"
+
       - uses: actions/checkout@v4
+        if: steps.hora.outputs.seguir == 'true'
       - uses: actions/setup-node@v4
+        if: steps.hora.outputs.seguir == 'true'
         with:
           node-version: "20"
 
       - name: Descargar los datos de Bambu-Cima
+        if: steps.hora.outputs.seguir == 'true'
         run: |
           set -e
           ORIGEN=https://raw.githubusercontent.com/adoptaelbitcoin/Bambu-Cima/main
@@ -38,6 +53,7 @@ jobs:
           done
 
       - name: Publicar
+        if: steps.hora.outputs.seguir == 'true'
         run: |
           git config user.name "bambu-bot"
           git config user.email "bambu-bot@users.noreply.github.com"
