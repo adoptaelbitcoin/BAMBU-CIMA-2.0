@@ -1,13 +1,13 @@
 # Copia a Bambú 2.0 los datos que Bambu-Cima actualiza cada día.
 # No necesita clave: lee los archivos públicos del repositorio Bambu-Cima.
-# Corre una vez al día a las 13:00 hora de España (una hora después de Bambu-Cima):
-# 11:00 UTC en verano, 12:00 UTC en invierno; cada día solo sigue la que corresponde.
+# Comprueba cada hora de 13:00 a 20:00 (hora de España) si Bambu-Cima tiene datos nuevos
+# y solo publica cuando los hay. Así absorbe los retrasos de GitHub con la tarea de Cima.
+# No pide nada a ChartInspect: solo copia de Bambu-Cima.
 name: Bambu · sincronizar datos desde Bambu-Cima
 
 on:
   schedule:
-    - cron: "0 11 * * *"   # 13:00 en Madrid con horario de verano (UTC+2)
-    - cron: "0 12 * * *"   # 13:00 en Madrid con horario de invierno (UTC+1)
+    - cron: "17 11-19 * * *"   # cada hora a y 17 (UTC); el primer paso filtra 13:00-20:59 de Madrid
   workflow_dispatch: {}
 
 permissions:
@@ -17,16 +17,13 @@ jobs:
   sincronizar:
     runs-on: ubuntu-latest
     steps:
-      - name: ¿Son las 13:00 en Madrid?
+      - name: ¿Estamos entre las 13:00 y las 20:59 en Madrid?
         id: hora
         run: |
           seguir=true
           if [ "${{ github.event_name }}" = "schedule" ]; then
-            off=$(TZ=Europe/Madrid date +%z)
-            case "${{ github.event.schedule }}|$off" in
-              "0 11 * * *|+0200"|"0 12 * * *|+0100") ;;
-              *) seguir=false; echo "Hoy toca la otra hora (Madrid $off)";;
-            esac
+            h=$(TZ=Europe/Madrid date +%-H)
+            if [ "$h" -lt 13 ] || [ "$h" -gt 20 ]; then seguir=false; echo "Fuera de horario (Madrid ${h}h)"; fi
           fi
           echo "seguir=$seguir" >> "$GITHUB_OUTPUT"
 
