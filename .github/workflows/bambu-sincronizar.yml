@@ -1,13 +1,16 @@
 # Copia a Bambú 2.0 los datos que Bambu-Cima actualiza cada día.
 # No necesita clave: lee los archivos públicos del repositorio Bambu-Cima.
-# Comprueba cada hora de 11:00 a 20:00 (hora de España) si Bambu-Cima tiene datos nuevos
-# y solo publica cuando los hay. Así absorbe los retrasos de GitHub con la tarea de Cima.
+# Corre una vez al día a las 11:00 hora de España, a la vez que la actualización de Bambu-Cima:
+# espera (hasta 4 horas, mirando cada 5 minutos) a que Bambu-Cima publique los datos de ayer
+# y entonces los copia. Así absorbe los retrasos de GitHub con la tarea de Cima.
+# GitHub solo entiende UTC: hay dos horas programadas y cada día solo sigue la del horario vigente.
 # No pide nada a ChartInspect: solo copia de Bambu-Cima.
 name: Bambu · sincronizar datos desde Bambu-Cima
 
 on:
   schedule:
-    - cron: "17 9-19 * * *"   # cada hora a y 17 (UTC); el primer paso filtra 11:00-20:59 de Madrid
+    - cron: "0 9 * * *"    # 11:00 en Madrid con horario de verano (UTC+2)
+    - cron: "0 10 * * *"   # 11:00 en Madrid con horario de invierno (UTC+1)
   workflow_dispatch: {}
 
 permissions:
@@ -16,16 +19,32 @@ permissions:
 jobs:
   sincronizar:
     runs-on: ubuntu-latest
+    timeout-minutes: 300
     steps:
-      - name: ¿Estamos entre las 11:00 y las 20:59 en Madrid?
+      - name: ¿Toca la ejecución de las 11:00 en Madrid?
         id: hora
         run: |
           seguir=true
           if [ "${{ github.event_name }}" = "schedule" ]; then
-            h=$(TZ=Europe/Madrid date +%-H)
-            if [ "$h" -lt 11 ] || [ "$h" -gt 20 ]; then seguir=false; echo "Fuera de horario (Madrid ${h}h)"; fi
+            off=$(TZ=Europe/Madrid date +%z)
+            case "${{ github.event.schedule }}|$off" in
+              "0 9 * * *|+0200"|"0 10 * * *|+0100") ;;
+              *) seguir=false; echo "Hoy toca la otra hora (Madrid $off)";;
+            esac
           fi
           echo "seguir=$seguir" >> "$GITHUB_OUTPUT"
+
+      - name: Esperar a que Bambu-Cima tenga los datos de ayer
+        if: steps.hora.outputs.seguir == 'true' && github.event_name == 'schedule'
+        run: |
+          ayer=$(TZ=Europe/Madrid date -d yesterday +%F)
+          for i in $(seq 1 48); do
+            fecha=$(curl -fsSL "https://raw.githubusercontent.com/adoptaelbitcoin/Bambu-Cima/main/app/history.js?t=$(date +%s)" | grep -o 'BambuDataDate = "[0-9-]*"' | grep -o '[0-9-]\{10\}' || true)
+            echo "Bambu-Cima tiene datos al ${fecha:-?} (busco $ayer)"
+            if [ -n "$fecha" ] && [ ! "$fecha" \< "$ayer" ]; then exit 0; fi
+            sleep 300
+          done
+          echo "Bambu-Cima no publicó los datos de ayer en 4 horas: copio lo que haya"
 
       - uses: actions/checkout@v4
         if: steps.hora.outputs.seguir == 'true'
