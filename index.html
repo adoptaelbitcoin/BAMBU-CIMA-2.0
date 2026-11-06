@@ -142,6 +142,21 @@ details ol{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:column;
 @media(max-width:640px){.sheet{padding:20px}.rp-verd,.rp-two,.rp-th{grid-template-columns:minmax(0,1fr)}}
 @media print{body{background:#fff}.wrap>*:not(#view-informe),.hist,.sheet-bar{display:none!important}.wrap{padding:0;max-width:none}.inf{display:block}.sheet{border:0;box-shadow:none;max-width:none;padding:0;font-size:10pt}}
 @media(max-width:520px){.th-wrap{grid-template-columns:20px 32px 100px minmax(0,1fr);gap:6px}.th-num{font-size:64px}.rd-l{grid-template-columns:12px 92px minmax(0,1fr)}}
+.zm-ctl{margin:6px 0 0;align-items:flex-end}.zm-f{display:flex;flex-direction:column;gap:4px;font-size:12px;font-weight:600;color:var(--mut)}.zm-rw{display:flex;flex-wrap:wrap;gap:10px;align-items:center}.zm-rg{margin:12px 0 0}.zm-rg .sm{margin:0}.zm-ctl .seg{flex-wrap:wrap}.zm-wide{flex-basis:100%}
+.zm-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.zm-c{display:flex;flex-direction:column;gap:14px}.zm-c header{display:flex;justify-content:space-between;align-items:baseline}.zm-c header b{font-size:18px}.zm-c header span{font:500 15px "JetBrains Mono",monospace;color:var(--mut)}
+.zm-gh{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.zm-gn{font-weight:600;font-size:14px}.zm-gv{font:700 18px "JetBrains Mono",monospace}.zm-chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;white-space:nowrap}.zm-chip i{width:10px;height:10px;border-radius:50%;flex:none}
+.zm-bar{position:relative;height:10px;margin:7px 0}.zm-bar em{position:absolute;top:0;bottom:0;border-right:2px solid var(--card)}.zm-bar em:first-child{border-radius:5px 0 0 5px}.zm-bar em:last-of-type{border-radius:0 5px 5px 0;border-right:0}.zm-bar>i{position:absolute;top:-4px;width:4px;height:18px;margin-left:-2px;background:var(--ink);border-radius:2px;box-shadow:0 0 0 2px var(--card)}
+.zm-gp,.zm-dv{margin:0;font-size:12.5px}.zm-dv{border-top:1px solid var(--line);padding-top:10px}
+.zm-chart{position:relative;overflow:hidden}.zm-chart svg{display:block;touch-action:pan-y}.zm-grid{stroke:#14171414;stroke-width:1}.zm-zero{stroke:#14171466;stroke-width:1}.zm-ax{font:500 10.5px "JetBrains Mono",monospace;fill:var(--mut)}.zm-axb{fill:var(--ink);font-weight:700}.zm-pt{font:600 12px "Instrument Sans",sans-serif;fill:var(--ink);paint-order:stroke;stroke:#ffffffcc;stroke-width:3px}.zm-lb{font:700 10.5px "JetBrains Mono",monospace;fill:var(--ink);paint-order:stroke;stroke:#fff;stroke-width:3px}.zm-hx{stroke:var(--ink);stroke-width:1;opacity:0;pointer-events:none}
+.zm-tip{position:absolute;top:30px;left:0;display:flex;flex-direction:column;gap:2px;background:var(--card);border:1px solid var(--line);border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,.12);padding:8px 10px;font-size:12px;white-space:nowrap;pointer-events:none;opacity:0;z-index:2}.zm-ts{border-top:1px solid var(--line);margin-top:3px;padding-top:3px;font-weight:600}
+.zm-leg{flex-wrap:wrap}.zm-h3{font-size:14px;margin:14px 0 6px}.zm-mw{max-height:none}.zm-m td{text-align:center}.zm-m td:first-child{text-align:left}.zm-n{text-align:right!important}.zm-m .zm-n{text-align:center!important}.zm-m .h-num{text-align:center}.zm-sel{color:var(--ink)!important;box-shadow:inset 0 -2px 0 var(--ink)}.zm-now td:first-child{font-weight:700}.zm-hoy{display:inline!important;font:700 10px "JetBrains Mono",monospace;color:#fff!important;background:var(--ink);padding:1px 5px;border-radius:4px;margin-left:4px}
+.zm-tus{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}.zm-tu .eyebrow{margin:0 0 8px}.zm-tr{display:grid;grid-template-columns:175px minmax(0,1fr) 28px;gap:8px;align-items:center;font-size:12.5px;padding:3px 0}.zm-tr div{height:10px}.zm-tr i{display:block;height:100%;min-width:2px;border-radius:0 4px 4px 0}.zm-tr b{font-family:"JetBrains Mono",monospace;text-align:right}
+.zm-d{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px}
+@media(max-width:860px){.zm-cards,.zm-tus{grid-template-columns:minmax(0,1fr)}.zm-tr{grid-template-columns:150px minmax(0,1fr) 28px}}
+.pj-ts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.pj-t{display:flex;flex-direction:column;gap:2px;border-top:2px solid var(--ink);padding-top:8px}.pj-t .eyebrow{font-size:11px}.pj-t b{font:700 26px "JetBrains Mono",monospace;letter-spacing:-.02em}.pj-t small{font-size:12px;color:var(--mut)}.pj-cal{margin:14px 0 0;font-size:14px}
+.pj-ss{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.pj-s{border:1px solid var(--line);border-top:4px solid var(--mut);border-radius:10px;padding:14px}.pj-s.up{border-top-color:var(--green)}.pj-s.dn{border-top-color:var(--red)}.pj-tag{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--mut)}.pj-s h3{margin:2px 0 10px;font-size:16px}.pj-s dl{margin:0;font-size:13.5px}.pj-s dt{color:var(--mut);font-size:12px;font-weight:600;margin-top:8px}.pj-s dd{margin:1px 0 0}
+.pj-tw{margin-top:14px}.pj-done td{color:var(--mut)}
+@media(max-width:860px){.tabs{flex-wrap:wrap}.tabs button{white-space:nowrap;padding:8px 10px;font-size:14px}.pj-ts{grid-template-columns:repeat(2,minmax(0,1fr))}.pj-ss{grid-template-columns:minmax(0,1fr)}.pj-t b{font-size:22px}}
 </style></head>
 <body>
 <div class="wrap">
@@ -149,7 +164,7 @@ details ol{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:column;
 <div class="brand"><h1>Bambú CIMA 2.0</h1><span>Temperatura del mercado · on-chain</span><span class="upd" id="upd"></span></div>
 <div class="seg" id="coin"><button data-t="BTC">Bitcoin</button><button data-t="ETH">Ethereum</button></div>
 </header>
-<nav class="tabs" id="tabs"><button data-v="panel">Panel</button><button data-v="informe">Informe CIMA</button><button data-v="historial">Historial de lecturas</button></nav>
+<nav class="tabs" id="tabs"><button data-v="panel">Panel</button><button data-v="informe">Informe CIMA</button><button data-v="historial">Historial de lecturas</button><button data-v="zonas">Zonas y movimientos</button><button data-v="proy">Proyecciones</button></nav>
 <div class="view" id="view-panel">
 <section class="hero"><div class="card" id="th-sth"></div><div class="card" id="th-lth"></div><p id="combo" class="combo"></p></section>
 <section class="card"><div class="chart-head"><div><h2>Lectura de hoy</h2><p class="sub">Los dos termómetros se leen por separado: STH dice cuándo, LTH dice cuánto.</p></div></div><div id="today"></div></section>
@@ -192,6 +207,27 @@ details ol{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:column;
 </section>
 <div id="h-blocks" class="h-blocks"></div>
 </div>
+<div class="view" id="view-zonas" hidden>
+<section class="card"><div class="chart-head"><div><h2>Zonas y movimientos</h2><p class="sub">Qué temperatura marcaban los termómetros cuando el precio hizo movimientos grandes, y qué pasó después de entrar en cada zona.</p></div></div>
+<div class="h-ctl zm-ctl"><div class="zm-f">Moneda<div class="seg" id="zm-t"></div></div><div class="zm-f">Indicador<div class="seg" id="zm-ind"></div></div><div class="zm-f">Plazo tras entrar en la zona<div class="seg" id="zm-h"></div></div>
+<div class="zm-f zm-wide">Rango de fechas<div class="zm-rw"><div class="seg" id="zm-r"></div><div class="h-cal"><label>Desde <input type="date" id="zm-from"></label><label>Hasta <input type="date" id="zm-to"></label></div></div></div>
+<div class="zm-f zm-wide">Movimiento mínimo<div class="seg" id="zm-th"></div></div></div>
+<p class="h-rng zm-rg"><span class="eyebrow">Rango</span> <b id="zm-rng"></b> <span class="muted sm">El gráfico, las tablas y la lista usan este rango. La lectura de hoy usa toda la historia.</span></p></section>
+<section class="zm-cards" id="zm-today"></section>
+<section class="card"><div id="zm-chart" class="zm-chart"></div><div class="legend zm-leg" id="zm-leg"></div><p class="muted sm">Los tramos se fijan a posteriori: un suelo o un techo solo se confirma cuando el precio ya ha girado el mínimo elegido. El tramo discontinuo sigue en curso y puede cambiar. Si un tramo empezó antes del rango, su etiqueta muestra el % del tramo completo.</p></section>
+<section class="card"><h2>Qué pasó después de entrar en cada zona</h2><p class="sub" id="zm-mx-sub"></p><div id="zm-mx"></div><p class="muted sm">Episodio: primer día en la zona tras más de 30 días fuera de ella. Subida y caída se miden por separado: un mismo episodio puede contar en ambas. Los días posteriores pueden quedar fuera del rango. Con menos de 5 episodios la fila va sin color por poca muestra.</p></section>
+<section class="card"><h2>Dónde giró el precio</h2><p class="sub">Zona que marcaba el indicador elegido en cada suelo y techo confirmado dentro del rango.</p><div class="zm-tus" id="zm-tu"></div></section>
+<section class="card"><h2>Movimientos del periodo</h2><p class="sub">Del más reciente al más antiguo, con los tres indicadores al empezar y al terminar cada tramo.</p><div class="h-wrap"><table class="h-t" id="zm-legs"></table></div>
+<p class="muted sm">Las anclas de los termómetros se calibraron con esta misma historia, así que estas cifras describen el pasado y no son una prueba fuera de muestra. Pocos ciclos: úsalas como contexto, no como probabilidad de lo que vaya a pasar.</p></section>
+</div>
+<div class="view" id="view-proy" hidden>
+<section class="card"><h2>Proyecciones de Bitcoin</h2><p class="sub">Qué pasaría si se repitiera lo ocurrido en los dos últimos ciclos completos. Son escenarios, no predicciones.</p><div class="pj-ts" id="pj-tiles"></div><p class="pj-cal" id="pj-cal"></p></section>
+<section class="card"><h2>Tres escenarios</h2><p class="sub">Sin porcentaje por escenario: con dos ciclos no hay base para calcularlo. Lo que los separa son los niveles.</p><div class="pj-ss" id="pj-sc"></div></section>
+<section class="card"><h2>Rutas a un año</h2><p class="sub">Cada ruta parte del precio de hoy y repite los movimientos de un ciclo, alineado por días desde su techo o desde su suelo. Las cuatro suponen que el suelo ya pasó: el escenario bajista no está aquí.</p><div id="pj-c1" class="zm-chart"></div><div class="legend zm-leg" id="pj-leg"></div><div class="h-wrap pj-tw"><table class="h-t" id="pj-pt"></table></div></section>
+<section class="card"><h2>Los ciclos superpuestos</h2><p class="sub">Precio frente al techo de cada ciclo, por días desde ese techo. Escala logarítmica.</p><div id="pj-c2" class="zm-chart"></div><div class="legend zm-leg" id="pj-leg2"></div><div class="h-wrap pj-tw"><table class="h-t" id="pj-cy"></table></div><p class="muted sm">Cada ciclo rinde menos que el anterior y cae menos. Las rutas de arriba no lo corrigen.</p></section>
+<section class="card"><h2>Hasta dónde puede llegar esta caída</h2><p class="sub" id="pj-lad-sub"></p><div class="h-wrap"><table class="h-t" id="pj-lad"></table></div><h3 class="zm-h3">Tamaño típico de los movimientos</h3><div class="h-wrap"><table class="h-t" id="pj-legs"></table></div><p class="muted sm">Mezcla tramos de mercado alcista y bajista. El ciclo 1 tuvo muchos más movimientos y más cortos que el ciclo 2.</p></section>
+<section class="card"><h2>Qué fiabilidad tiene</h2><p class="sub" id="pj-ana"></p><div class="h-wrap"><table class="h-t" id="pj-bt"></table></div><p class="muted sm">Prueba hacia atrás desde el techo de 2021, usando en cada fecha solo los datos anteriores. Banda: del percentil 25 al 75; acertando, debería contener cerca de la mitad de los casos. Las anclas de los termómetros se calibraron con esta misma historia, lo que los favorece, y aun así no mejoran. Las rutas por ciclos no se pueden probar así porque solo hay dos. Contenido educativo: no es una recomendación de inversión.</p></section>
+</div>
 <p class="foot">Contenido educativo, no asesoramiento financiero. Invertir en criptoactivos conlleva riesgo de pérdida.</p>
 </div>
 <script src="bambu2/data.js"></script>
@@ -200,6 +236,8 @@ details ol{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:column;
 <script src="bambu2/supply.js"></script>
 <script src="bambu2/report.js"></script>
 <script src="bambu2/hist.js"></script>
+<script src="bambu2/zonas.js"></script>
+<script src="bambu2/proyecciones.js"></script>
 <script>(function(){
 const Rp=window.Bambu2Report,D=Rp.dates(),$=s=>document.querySelector(s);
 let days=90,filt="all",cur=localStorage.getItem("b2_inf_iso")||D[D.length-1];if(D.indexOf(cur)<0)cur=D[D.length-1];
@@ -211,10 +249,10 @@ function show(iso){cur=iso;localStorage.setItem("b2_inf_iso",iso);$("#sheet").in
 $("#prev").onclick=()=>show(D[D.indexOf(cur)-1]);$("#next").onclick=()=>show(D[D.indexOf(cur)+1]);$("#latest").onclick=()=>show(D[D.length-1]);
 $("#print").onclick=()=>window.print();$("#hmore").onclick=()=>{days+=90;list();};
 document.querySelectorAll("#hf button").forEach(b=>b.onclick=()=>{filt=b.dataset.f;document.querySelectorAll("#hf button").forEach(x=>x.classList.toggle("on",x===b));list();});
-function view(v){localStorage.setItem("b2_view",v);document.querySelectorAll("#tabs button").forEach(b=>b.classList.toggle("on",b.dataset.v===v));$("#view-panel").hidden=v!=="panel";$("#view-informe").hidden=v!=="informe";$("#view-historial").hidden=v!=="historial";$("#coin").style.display=v==="panel"?"":"none";if(v==="informe"){cur=localStorage.getItem("b2_inf_iso")||cur;show(cur);}if(v==="historial")window.Bambu2Hist.render();window.scrollTo(0,0);}
+function view(v){localStorage.setItem("b2_view",v);document.querySelectorAll("#tabs button").forEach(b=>b.classList.toggle("on",b.dataset.v===v));$("#view-panel").hidden=v!=="panel";$("#view-informe").hidden=v!=="informe";$("#view-historial").hidden=v!=="historial";$("#view-zonas").hidden=v!=="zonas";$("#view-proy").hidden=v!=="proy";$("#coin").style.display=v==="panel"?"":"none";if(v==="informe"){cur=localStorage.getItem("b2_inf_iso")||cur;show(cur);}if(v==="historial")window.Bambu2Hist.render();if(v==="zonas")window.Bambu2Zonas.render();if(v==="proy")window.Bambu2Proy.render();window.scrollTo(0,0);}
 window.Bambu2View=view;
 document.querySelectorAll("#tabs button").forEach(b=>b.onclick=()=>view(b.dataset.v));
-view(location.hash==="#informe"?"informe":location.hash==="#historial"?"historial":localStorage.getItem("b2_view")||"panel");
+view(location.hash==="#informe"?"informe":location.hash==="#historial"?"historial":location.hash==="#zonas"?"zonas":location.hash==="#proyecciones"?"proy":localStorage.getItem("b2_view")||"panel");
 })();</script>
 <script>(function(){var D=window.BAMBU2_DATA,d=D&&D.BTC&&D.BTC.d;if(!d)return;var iso=d[d.length-1];document.getElementById("upd").textContent="Actualizado: "+new Date(iso+"T00:00:00Z").toLocaleDateString("es-ES",{day:"numeric",month:"short",year:"numeric",timeZone:"UTC"});})();</script>
 </body></html>
