@@ -157,6 +157,7 @@ details ol{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:column;
 .pj-ss{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.pj-s{border:1px solid var(--line);border-top:4px solid var(--mut);border-radius:10px;padding:14px}.pj-s.up{border-top-color:var(--green)}.pj-s.dn{border-top-color:var(--red)}.pj-tag{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--mut)}.pj-s h3{margin:2px 0 10px;font-size:16px}.pj-s dl{margin:0;font-size:13.5px}.pj-s dt{color:var(--mut);font-size:12px;font-weight:600;margin-top:8px}.pj-s dd{margin:1px 0 0}
 .pj-tw{margin-top:14px}.pj-done td{color:var(--mut)}
 @media(max-width:860px){.tabs{flex-wrap:wrap}.tabs button{white-space:nowrap;padding:8px 10px;font-size:14px}.pj-ts{grid-template-columns:repeat(2,minmax(0,1fr))}.pj-ss{grid-template-columns:minmax(0,1fr)}.pj-t b{font-size:22px}}
+.pb-px{font:500 14px "JetBrains Mono",monospace;margin-left:6px}.pb-lt{margin:10px 0 0}.pb-t td,.pb-t th{white-space:nowrap}.pb-main{font-weight:700}.pb-in{width:104px;font:600 13px "JetBrains Mono",monospace;padding:4px 6px;border:1px solid var(--line);border-radius:6px;background:#fff;color:var(--ink)}.pb-hint{margin:0 0 6px}.pb-ul{margin:6px 0 0;padding-left:18px;font-size:14px}.pb-ul li{margin:4px 0}
 </style></head>
 <body>
 <div class="wrap">
@@ -164,7 +165,7 @@ details ol{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:column;
 <div class="brand"><h1>Bambú CIMA 2.0</h1><span>Temperatura del mercado · on-chain</span><span class="upd" id="upd"></span></div>
 <div class="seg" id="coin"><button data-t="BTC">Bitcoin</button><button data-t="ETH">Ethereum</button></div>
 </header>
-<nav class="tabs" id="tabs"><button data-v="panel">Panel</button><button data-v="informe">Informe CIMA</button><button data-v="historial">Historial de lecturas</button><button data-v="zonas">Zonas y movimientos</button><button data-v="proy">Proyecciones</button></nav>
+<nav class="tabs" id="tabs"><button data-v="panel">Panel</button><button data-v="informe">Informe CIMA</button><button data-v="historial">Historial de lecturas</button><button data-v="zonas">Zonas y movimientos</button><button data-v="proy">Proyecciones</button><button data-v="prob">Probabilidades</button></nav>
 <div class="view" id="view-panel">
 <section class="hero"><div class="card" id="th-sth"></div><div class="card" id="th-lth"></div><p id="combo" class="combo"></p></section>
 <section class="card"><div class="chart-head"><div><h2>Lectura de hoy</h2><p class="sub">Los dos termómetros se leen por separado: STH dice cuándo, LTH dice cuánto.</p></div></div><div id="today"></div></section>
@@ -228,6 +229,13 @@ details ol{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:column;
 <section class="card"><h2>Hasta dónde puede llegar esta caída</h2><p class="sub" id="pj-lad-sub"></p><div class="h-wrap"><table class="h-t" id="pj-lad"></table></div><h3 class="zm-h3">Tamaño típico de los movimientos</h3><div class="h-wrap"><table class="h-t" id="pj-legs"></table></div><p class="muted sm">Mezcla tramos de mercado alcista y bajista. El ciclo 1 tuvo muchos más movimientos y más cortos que el ciclo 2.</p></section>
 <section class="card"><h2>Qué fiabilidad tiene</h2><p class="sub" id="pj-ana"></p><div class="h-wrap"><table class="h-t" id="pj-bt"></table></div><p class="muted sm">Prueba hacia atrás desde el techo de 2021, usando en cada fecha solo los datos anteriores. Banda: del percentil 25 al 75; acertando, debería contener cerca de la mitad de los casos. Las anclas de los termómetros se calibraron con esta misma historia, lo que los favorece, y aun así no mejoran. Las rutas por ciclos no se pueden probar así porque solo hay dos. Contenido educativo: no es una recomendación de inversión.</p></section>
 </div>
+<div class="view" id="view-prob" hidden>
+<section class="card"><h2>Probabilidades a 7, 15, 30, 45, 60 y 90 días</h2><p class="sub">Con qué frecuencia BTC y ETH se movieron cada distancia en el pasado, aplicado al último cierre. Es lo que pasó antes, no una predicción.</p>
+<div class="h-ctl zm-ctl"><div class="zm-f">Muestra<div class="seg" id="pb-lens"></div></div></div><p class="sm pb-lt" id="pb-lens-txt"></p></section>
+<section class="card" id="pb-BTC"></section>
+<section class="card" id="pb-ETH"></section>
+<section class="card"><h2>Cómo leerla</h2><ul class="pb-ul"><li><b>Rango probable:</b> la mitad de los casos terminó dentro (percentiles 25 a 75). <b>Rango amplio:</b> 8 de cada 10 (percentiles 10 a 90).</li><li><b>Tocar un nivel</b> cuenta cualquier cierre diario dentro del plazo; con las mechas intradía la probabilidad real es algo mayor.</li><li>Los días seguidos se solapan: hay miles de puntos de partida, pero muy pocos ciclos distintos. En «Misma fase del ciclo» solo hay dos.</li><li>No usa los termómetros: en la pestaña Proyecciones, la prueba hacia atrás mostró que no mejoran la dirección a 90–180 días.</li><li>Contenido educativo: no es una recomendación de inversión.</li></ul></section>
+</div>
 <p class="foot">Contenido educativo, no asesoramiento financiero. Invertir en criptoactivos conlleva riesgo de pérdida.</p>
 </div>
 <script src="bambu2/data.js"></script>
@@ -238,6 +246,7 @@ details ol{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:column;
 <script src="bambu2/hist.js"></script>
 <script src="bambu2/zonas.js"></script>
 <script src="bambu2/proyecciones.js"></script>
+<script src="bambu2/probabilidades.js"></script>
 <script>(function(){
 const Rp=window.Bambu2Report,D=Rp.dates(),$=s=>document.querySelector(s);
 let days=90,filt="all",cur=localStorage.getItem("b2_inf_iso")||D[D.length-1];if(D.indexOf(cur)<0)cur=D[D.length-1];
@@ -249,10 +258,10 @@ function show(iso){cur=iso;localStorage.setItem("b2_inf_iso",iso);$("#sheet").in
 $("#prev").onclick=()=>show(D[D.indexOf(cur)-1]);$("#next").onclick=()=>show(D[D.indexOf(cur)+1]);$("#latest").onclick=()=>show(D[D.length-1]);
 $("#print").onclick=()=>window.print();$("#hmore").onclick=()=>{days+=90;list();};
 document.querySelectorAll("#hf button").forEach(b=>b.onclick=()=>{filt=b.dataset.f;document.querySelectorAll("#hf button").forEach(x=>x.classList.toggle("on",x===b));list();});
-function view(v){localStorage.setItem("b2_view",v);document.querySelectorAll("#tabs button").forEach(b=>b.classList.toggle("on",b.dataset.v===v));$("#view-panel").hidden=v!=="panel";$("#view-informe").hidden=v!=="informe";$("#view-historial").hidden=v!=="historial";$("#view-zonas").hidden=v!=="zonas";$("#view-proy").hidden=v!=="proy";$("#coin").style.display=v==="panel"?"":"none";if(v==="informe"){cur=localStorage.getItem("b2_inf_iso")||cur;show(cur);}if(v==="historial")window.Bambu2Hist.render();if(v==="zonas")window.Bambu2Zonas.render();if(v==="proy")window.Bambu2Proy.render();window.scrollTo(0,0);}
+function view(v){localStorage.setItem("b2_view",v);document.querySelectorAll("#tabs button").forEach(b=>b.classList.toggle("on",b.dataset.v===v));$("#view-panel").hidden=v!=="panel";$("#view-informe").hidden=v!=="informe";$("#view-historial").hidden=v!=="historial";$("#view-zonas").hidden=v!=="zonas";$("#view-proy").hidden=v!=="proy";$("#view-prob").hidden=v!=="prob";$("#coin").style.display=v==="panel"?"":"none";if(v==="informe"){cur=localStorage.getItem("b2_inf_iso")||cur;show(cur);}if(v==="historial")window.Bambu2Hist.render();if(v==="zonas")window.Bambu2Zonas.render();if(v==="proy")window.Bambu2Proy.render();if(v==="prob")window.Bambu2Prob.render();window.scrollTo(0,0);}
 window.Bambu2View=view;
 document.querySelectorAll("#tabs button").forEach(b=>b.onclick=()=>view(b.dataset.v));
-view(location.hash==="#informe"?"informe":location.hash==="#historial"?"historial":location.hash==="#zonas"?"zonas":location.hash==="#proyecciones"?"proy":localStorage.getItem("b2_view")||"panel");
+view(location.hash==="#informe"?"informe":location.hash==="#historial"?"historial":location.hash==="#zonas"?"zonas":location.hash==="#proyecciones"?"proy":location.hash==="#probabilidades"?"prob":localStorage.getItem("b2_view")||"panel");
 })();</script>
 <script>(function(){var D=window.BAMBU2_DATA,d=D&&D.BTC&&D.BTC.d;if(!d)return;var iso=d[d.length-1];document.getElementById("upd").textContent="Actualizado: "+new Date(iso+"T00:00:00Z").toLocaleDateString("es-ES",{day:"numeric",month:"short",year:"numeric",timeZone:"UTC"});})();</script>
 </body></html>
